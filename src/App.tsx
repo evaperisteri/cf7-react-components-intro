@@ -7,13 +7,13 @@
 // import CodingFactoryLogo from "./components/CodingFactoryLogo.tsx";
 
 import Layout from "./components/Layout.tsx";
-import Todo from "./components/Todo/Todo.tsx";
+//import Todo from "./components/Todo/Todo.tsx";
 //import CounterAdvancedWithCustomHook from "./components/CounterAdvancedWithCustomHook.tsx";
 //import CounterWithReducer from "./components/CounterWithReducer.tsx";
 //import CounterAdvanced from "./components/CounterAdvanced.tsx";
 //import CounterWithCustomHook from "./components/CounterWithCustomHook.tsx";
 //import CounterWithMoreStates from "./components/CounterWithMoreStates.tsx";
-//import NameChanger from "./components/NameChanger.tsx";
+import NameChanger from "./components/NameChanger.tsx";
 //import FunctionalComponentWithState from "./components/FunctionalComponentWithState.tsx";
 //import Counter from "./components/Counter.tsx";
 //import FunctionalComponent from "./components/FunctionalComponent.tsx";
@@ -36,13 +36,13 @@ function App() {
             {/*<ClassComponentWithState/>*/}
             {/*<FunctionalComponentWithState/>*/}
             {/*<Counter/>*/}
-            {/*<NameChanger/>*/}
+            <NameChanger/>
             {/*<CounterWithMoreStates/>*/}
             {/*<CounterAdvanced/>*/}
             {/*<CounterWithCustomHook/>*/}
             {/*<CounterAdvancedWithCustomHook/>*/}
             {/*<CounterWithReducer/>*/}
-            <Todo/>
+            {/*<Todo/>*/}
         </Layout>
     </>
   )
