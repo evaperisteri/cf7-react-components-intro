@@ -14,6 +14,7 @@ import Layout from "./components/Layout.tsx";
 //import CounterWithCustomHook from "./components/CounterWithCustomHook.tsx";
 //import CounterWithMoreStates from "./components/CounterWithMoreStates.tsx";
 import NameChanger from "./components/NameChanger.tsx";
+import {useEffect} from "react";
 //import FunctionalComponentWithState from "./components/FunctionalComponentWithState.tsx";
 //import Counter from "./components/Counter.tsx";
 //import FunctionalComponent from "./components/FunctionalComponent.tsx";
@@ -21,7 +22,10 @@ import NameChanger from "./components/NameChanger.tsx";
 
 function App() {
 
-
+    useEffect(()=> {
+        const id: number = setInterval(()=>console.log("tick"), 1000)
+        return()=> clearInterval(id);
+    }, []);
   return (
     <>
         {/*<ClassComponent/>*/}
