@@ -28,6 +28,7 @@ import Layout from "./components/Layout.tsx";
 //import OnlineStatus from "./components/OnlineStatus.tsx";
 import OnlineStatusPage from "./pages/OnlineStatusPage.tsx";
 import UserPage from "./pages/UserPage.tsx";
+import RouterLayout from "./components/RouterLayout.tsx";
 
 function App() {
 
@@ -60,18 +61,23 @@ function App() {
         {/*</Layout>*/}
 
         <BrowserRouter>
-            <Layout>
+            {/*<Layout>*/}
                 <Routes>
                     {/*<Route path="/" element={<HomePage/>}/>*/}
-                    <Route index element={<HomePage/>}/>
+                    <Route element={<RouterLayout/>}>
+                        <Route index element={<HomePage/>}/>
+                    </Route>
+
                     {/*<Route path="/name-changer" element={<NameChangerPage/>}/>*/}
                     <Route path="examples?"> //optional segment
                         <Route path="name-changer" element={<NameChangerPage/>}/>
                         <Route path="online-status" element={<OnlineStatusPage/>}/>
                     </Route>
                     <Route path="users/:userId" element={<UserPage/>}/> //dynamic segment
+                    <Route path="users" element={<UserPage/>}/>
+                    {/*<Route path="files/*" element={<FilePage/>}/>*/}
                 </Routes>
-            </Layout>
+            {/*</Layout>*/}
         </BrowserRouter>
     </>
   )
