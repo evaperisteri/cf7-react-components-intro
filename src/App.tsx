@@ -24,7 +24,7 @@
 import {BrowserRouter, Route, Routes} from "react-router";
 import HomePage from "./pages/HomePage.tsx";
 import NameChangerPage from "./pages/NameChangerPage.tsx";
-import Layout from "./components/Layout.tsx";
+//import Layout from "./components/Layout.tsx";
 //import OnlineStatus from "./components/OnlineStatus.tsx";
 import OnlineStatusPage from "./pages/OnlineStatusPage.tsx";
 import UserPage from "./pages/UserPage.tsx";
