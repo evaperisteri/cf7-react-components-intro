@@ -6,8 +6,8 @@
 
 // import CodingFactoryLogo from "./components/CodingFactoryLogo.tsx";
 
-import Layout from "./components/Layout.tsx";
-import OnlineStatus from "./components/OnlineStatus.tsx";
+//import Layout from "./components/Layout.tsx";
+//import OnlineStatus from "./components/OnlineStatus.tsx";
 //import Todo from "./components/Todo/Todo.tsx";
 //import CounterAdvancedWithCustomHook from "./components/CounterAdvancedWithCustomHook.tsx";
 //import CounterWithReducer from "./components/CounterWithReducer.tsx";
@@ -20,6 +20,14 @@ import OnlineStatus from "./components/OnlineStatus.tsx";
 //import Counter from "./components/Counter.tsx";
 //import FunctionalComponent from "./components/FunctionalComponent.tsx";
 //import ClassComponentWithState from "./components/ClassComponentWithState.tsx";
+
+import {BrowserRouter, Route, Routes} from "react-router";
+import HomePage from "./pages/HomePage.tsx";
+import NameChangerPage from "./pages/NameChangerPage.tsx";
+import Layout from "./components/Layout.tsx";
+//import OnlineStatus from "./components/OnlineStatus.tsx";
+import OnlineStatusPage from "./pages/OnlineStatusPage.tsx";
+import UserPage from "./pages/UserPage.tsx";
 
 function App() {
 
@@ -35,7 +43,7 @@ function App() {
         {/*<ArrowFunctionalCompWithProps title="is an Arrow FunctionalComponent with props" />*/}
         {/*<ArrowFunctionalCompWithPropsType title={"It is an Arrow FunctionalComponent with props"} description={"this is a description"}/>*/}
         {/*<CodingFactoryLogo/>*/}
-        <Layout>
+        {/*<Layout>*/}
             {/*<h1 className="text-center text-2xl font-bold">This is a heading1 title</h1>*/}
             {/*<FunctionalComponent/>*/}
             {/*<ClassComponentWithState/>*/}
@@ -48,8 +56,23 @@ function App() {
             {/*<CounterAdvancedWithCustomHook/>*/}
             {/*<CounterWithReducer/>*/}
             {/*<Todo/>*/}
-            <OnlineStatus/>
-        </Layout>
+            {/*<OnlineStatus/>*/}
+        {/*</Layout>*/}
+
+        <BrowserRouter>
+            <Layout>
+                <Routes>
+                    {/*<Route path="/" element={<HomePage/>}/>*/}
+                    <Route index element={<HomePage/>}/>
+                    {/*<Route path="/name-changer" element={<NameChangerPage/>}/>*/}
+                    <Route path="examples?"> //optional segment
+                        <Route path="name-changer" element={<NameChangerPage/>}/>
+                        <Route path="online-status" element={<OnlineStatusPage/>}/>
+                    </Route>
+                    <Route path="users/:userId" element={<UserPage/>}/> //dynamic segment
+                </Routes>
+            </Layout>
+        </BrowserRouter>
     </>
   )
 }
