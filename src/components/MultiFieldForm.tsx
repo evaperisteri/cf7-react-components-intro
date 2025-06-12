@@ -23,8 +23,7 @@ const MultiFieldForm =()=>{
     const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
         const {name, value} = e.target;
         setValues(
-
-            (prev) =>({
+            prev =>({
                 ...prev,
                 [name]:value,
             })
