@@ -30,10 +30,10 @@ const MultiFieldFormWithValidation =()=>{
         }
         if(!values.email.trim() ||
             !/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/.test(values.email.trim())){
-            errors.name = "Email is Required.";
+            errors.email = "Email is Required.";
         }
         if(!values.message.trim() || values.message.length < 5){
-            errors.name = "Message is Required.";
+            errors.message = "Message is Required.";
         }
         return errors;
     }
@@ -69,37 +69,50 @@ const MultiFieldFormWithValidation =()=>{
     const handleClear=()=>{
         setValues(initialValues);
         setSubmittedData(null);
+        setErrors(null);
     };
 
     return(
         <>
             <div className="mx-auto max-w-sm mt-8">
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <input
-                        type="text"
-                        name="name"
-                        value={values.name}
-                        placeholder="Name"
-                        onChange={handleChange}
-                        required
-                        className="border rounded px-4 py-2 w-full"/>
-                    <input
-                        type="email"
-                        name="email"
-                        value={values.email}
-                        placeholder="Email"
-                        onChange={handleChange}
-                        required
-                        className="border rounded px-4 py-2 w-full"/>
-                    <textarea
-                        name="message"
-                        value={values.message}
-                        placeholder="Type your message..."
-                        onChange={handleChange}
-                        required
-                        minLength={5}
-                        className="border rounded px-4 py-2 w-full">
+                    <div>
+                        <input
+                            type="text"
+                            name="name"
+                            value={values.name}
+                            placeholder="Name"
+                            onChange={handleChange}
+                            className="border rounded px-4 py-2 w-full"/>
+                        {errors?.name && (
+                            <p className="text-cf-dark-red">{errors.name}</p>
+                        )}
+                    </div>
+                    <div>
+                        <input
+                            type="text"
+                            name="email"
+                            value={values.email}
+                            placeholder="Email"
+                            onChange={handleChange}
+                            className="border rounded px-4 py-2 w-full"/>
+                        {errors?.email && (
+                            <p className="text-cf-dark-red">{errors.email}</p>
+                        )}
+                    </div>
+                    <div>
+                        <textarea
+                            name="message"
+                            value={values.message}
+                            placeholder="Type your message..."
+                            onChange={handleChange}
+                            className="border rounded px-4 py-2 w-full">
                         </textarea>
+                        {errors?.message && (
+                            <p className="text-cf-dark-red">{errors.message}</p>
+                        )}
+                    </div>
+
                     <div className="flex gap-4">
                         <button type="submit" className="bg-cf-dark-red text-white px-4 py-2 rounded">
                             Submit
