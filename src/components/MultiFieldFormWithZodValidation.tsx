@@ -34,34 +34,31 @@ const initialValues = {
 const MultiFieldFormWithZodValidation =()=>{
     const [values, setValues] = useState<FormValues>(initialValues);
     const [submittedData, setSubmittedData] = useState<FormValues | null>(null);
-    const [errors, setErrors] = useState<FormErrors | null>(null);
+    const [errors, setErrors] = useState<FormErrors>({});
 
-    const validateForm =(values: FormValues): FormErrors => {
-        const errors: FormErrors = {};
-        if(!values.name.trim()){
-            errors.name = "Name is Required.";
+    const validateForm =() => {
+        const result = formSchema.safeParse(values);
+        // {success: true, data: validatedData}
+        // {success: false, errors: errors}
+        if(!result.success) {
+            const newErrors: FormErrors= {};
+            result.error.issues.forEach((issue) => {
+                const fieldName = issue.path[0] as keyof FormValues;
+                newErrors[fieldName] = issue.message;
+            });
+            setErrors(newErrors);
+            return false;
         }
-        if(!values.email.trim() ||
-            !/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/.test(values.email.trim())){
-            errors.email = "Email is Required.";
-        }
-        if(!values.message.trim() || values.message.length < 5){
-            errors.message = "Message is Required.";
-        }
-        return errors;
+        setErrors({});
+        return true;
     }
     const handleSubmit=(e: React.FormEvent)=>{
         e.preventDefault();
-
-        const validationErrors = validateForm(values);
-        if(Object.keys(validationErrors).length > 0){
-            setErrors(validationErrors);
-            setSubmittedData(null);
-            return;
+        const isValid = validateForm();
+        if(isValid){
+            setSubmittedData(values);
+            setValues(initialValues);
         }
-        setSubmittedData(values);
-        setValues(initialValues);
-        setErrors(null);
     };
     const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
         const {name, value} = e.target;
@@ -71,7 +68,6 @@ const MultiFieldFormWithZodValidation =()=>{
                 [name]:value,
             })
         )
-
         setErrors(
             prev =>({
                 ...prev,
@@ -82,7 +78,7 @@ const MultiFieldFormWithZodValidation =()=>{
     const handleClear=()=>{
         setValues(initialValues);
         setSubmittedData(null);
-        setErrors(null);
+        setErrors({});
     };
 
     return(
@@ -96,7 +92,9 @@ const MultiFieldFormWithZodValidation =()=>{
                             value={values.name}
                             placeholder="Name"
                             onChange={handleChange}
-                            className="border rounded px-4 py-2 w-full"/>
+                            className="border rounded px-4 py-2 w-full"
+                            autoComplete="off"
+                        />
                         {errors?.name && (
                             <p className="text-cf-dark-red">{errors.name}</p>
                         )}
@@ -108,7 +106,9 @@ const MultiFieldFormWithZodValidation =()=>{
                             value={values.email}
                             placeholder="Email"
                             onChange={handleChange}
-                            className="border rounded px-4 py-2 w-full"/>
+                            className="border rounded px-4 py-2 w-full"
+                            autoComplete="off"
+                        />
                         {errors?.email && (
                             <p className="text-cf-dark-red">{errors.email}</p>
                         )}
