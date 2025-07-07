@@ -94,8 +94,7 @@ const MultiFieldFormWithReactHook =()=> {
                         <button type="button" onClick={onClear} className="bg-cf-gray text-white px-4 py-2 rounded">
                             Clear
                         </button>
-
-                    </div >
+                    </div>
                     <div className="mt-6 border-t pt-4 space-y-2">
                         <h2 className="font-semibold">Live Data</h2>
                         <p><strong>Name: </strong>{watchedValues.name}</p>
