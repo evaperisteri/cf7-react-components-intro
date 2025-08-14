@@ -35,6 +35,7 @@ import RouterLayout from "./components/RouterLayout.tsx";
 //import NotFoundPage from "./pages/NotFoundPage.tsx";
 //import MultiFieldFormWithZodValidation from "./components/MultiFieldFormWithZodValidation.tsx";
 //import MultiFieldFormWithReactHook from "./components/MultiFieldFormWithReactHook.tsx";
+import Product from "@/pages/Product.tsx"
 import ProductList from "@/pages/ProductList.tsx";
 //import FocusInput from "./components/FocusInput.tsx";
 //import UncontrolledInput from "./components/UncontrolledInput.tsx";
@@ -100,12 +101,13 @@ function App() {
 
                     {/*/!*<Route path="files/*" element={<FilePage/>}/>*!/*/}
                     {/*<Route path="*" element={<NotFoundPage/>}/>*/}
-                        <Route path="products" element={<RouterLayout/>}>
-                            <Route index element={<ProductList/>}/>
-                            {/*<Route path="new" element={<Product/>}/>*/}
-                            {/*<Route path=":productId" element={<Product/>}/>*/}
 
-                        </Route>
+                    <Route path="products" element={<RouterLayout/>}>
+                        <Route index element={<ProductList/>}/>
+                        {/*<Route path="new" element={<Product/>}/>*/}
+                        <Route path=":productId" element={<Product/>}/>
+                    </Route>
+
                 </Routes>
             {/*</Layout>*/}
         </BrowserRouter>
