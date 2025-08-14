@@ -6,8 +6,7 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {getProduct, updateProduct, productSchema} from"@/api/products.ts";
-import {type ProductType} from "@/api/products.ts"
+import {getProduct, updateProduct, productFormSchema, type ProductType} from"@/api/products.ts";
 import {useEffect} from "react";
 import {toast} from "sonner";
 
@@ -22,8 +21,8 @@ const Product =() =>{
         watch,
         formState:{errors, isSubmitting},
         reset,
-    } = useForm({
-        resolver: zodResolver(productSchema),
+    } = useForm<Omit<ProductType, "id">>({
+        resolver: zodResolver(productFormSchema),
         defaultValues: {
             name: "",
             slug: "",
@@ -36,17 +35,6 @@ const Product =() =>{
             category_id:1, //default to 1
         }});
 
-    const onSubmit = async (data: Omit<ProductType, "id">) => {
-        try{
-            await updateProduct(Number(productId), data);
-            toast.success("Product updated!");
-            navigate("/products");
-           } catch (error) {
-            toast.error(
-                error instanceof Error ? error.message : "Something went wrong!"
-            );
-        }
-    }
     useEffect(() => {
         if(productId) {
             getProduct(Number(productId))
@@ -68,6 +56,20 @@ const Product =() =>{
                 .catch((err)=>{console.error(err)})
         }
     }, [productId, reset]);
+
+    const onSubmit = async (data: Omit<ProductType, "id">) => {
+        try{
+            if(productId){
+                await updateProduct(Number(productId), data);
+                toast.success("Product updated!");
+            }
+            navigate("/products");
+        } catch (error) {
+            toast.error(
+                error instanceof Error ? error.message : "Something went wrong!"
+            );
+        }
+    }
 
     return(
     <>

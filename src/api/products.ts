@@ -19,6 +19,7 @@ export const productSchema = z.object({
     category_id: z.coerce.number().int().min(1, "Category is required"),
 })
 
+export const productFormSchema = productSchema.omit({id: true});
 export type ProductType = z.infer<typeof productSchema>;
 
 export async function getProducts():Promise<ProductType[]> {
