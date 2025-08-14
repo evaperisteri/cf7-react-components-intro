@@ -11,23 +11,23 @@ export const productSchema = z.object({
         .min(1, "Required")
         .regex(/^[a-zA-Z0-9-_]+$/, "Slug must use only Latin letters, numbers, - or _"),
     description: z.string().optional(),
-    image: z.string().url("Must be valid url").optional(),
+    image: z.string().url("Must be valid url").optional().or(z.literal("")),
     price: z.number().nonnegative("Must be grater than zero"),
     sort: z.coerce.number().int().min(0, "Must be greater than zero"),
     is_active: z.boolean(),
-    is_favourite: z.boolean(),
+    is_favorite: z.boolean(),
     category_id: z.coerce.number().int().min(1, "Category is required"),
 })
 
-export type Product = z.infer<typeof productSchema>;
+export type ProductType = z.infer<typeof productSchema>;
 
-export async function getProducts():Promise<Product[]> {
+export async function getProducts():Promise<ProductType[]> {
     const res = await fetch(`${API_URL}/tenants/${TENANT_ID}/products/`);
     if(!res.ok) throw new Error("Failed to fetch products.");
     return await res.json();
 }
 
-export async function getProduct(id: number):Promise<Product>{
+export async function getProduct(id: number):Promise<ProductType>{
     const res = await fetch(`${API_URL}/tenants/${TENANT_ID}/products/${id}`);
     if (!res.ok) throw new Error("Failed to fetch product with id "+id);
     return await res.json();
@@ -44,7 +44,7 @@ export async function updateProduct(
         is_active: boolean;
         is_favorite: boolean;
         sort: number;
-    }):Promise<Product>{
+    }):Promise<ProductType>{
     const res = await fetch(`${API_URL}/tenants/${TENANT_ID}/products/${id}`,
         {method: 'PUT', body: JSON.stringify(data)});
     if (!res.ok) throw new Error("Failed to update product with id "+id);
