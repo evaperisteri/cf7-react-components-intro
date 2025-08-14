@@ -1,10 +1,17 @@
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
 import {useEffect, useState} from "react";
-import {getProducts, type Product} from "@/api/products.ts";
+import {getProducts, deleteProduct, type Product} from "@/api/products.ts";
+import {Button} from "@/components/ui/button.tsx";
+import {useNavigate} from "react-router";
+import {Pencil, Trash} from "lucide-react";
+import {toast} from "sonner";
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState<boolean>(true);
+    const [deleting, setDeleting] = useState<number | null>(null)
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getProducts()
@@ -12,31 +19,63 @@ const ProductList = () => {
             .finally(() => setLoading(false));
     }, []);
 
+    const handleDelete = async (id: number) =>{
+     if (!window.confirm("Are you sure you want to delete this product?")){
+         setDeleting(id)
+     }
+         try {
+             await deleteProduct(id); //delete από το backend
+             setProducts((prev)=> prev.filter((p)=>p.id!==id)); //delete από το state -- frontend
+             toast.success("Product deleted successfully");
+         } catch (error) {
+             toast.error("error in deleting product " + id);
+             console.log(error);
+         } finally {
+             setDeleting(null);
+         }
+    }
+
     if(loading) return <div className="text-center p-8">Loading...</div>
 
     return (
         <>
-            <Table>
-                <TableCaption>A list of your products.</TableCaption>
-                <TableHeader className="bg-gray-50">
-                    <TableRow>
-                        <TableHead>#</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Price</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {/*{invoices.map((invoice) => (*/}
-                    {/*    <TableRow key={invoice.invoice}>*/}
-                    {/*        <TableCell className="font-medium">{invoice.invoice}</TableCell>*/}
-                    {/*        <TableCell>{invoice.paymentStatus}</TableCell>*/}
-                    {/*        <TableCell>{invoice.paymentMethod}</TableCell>*/}
-                    {/*        <TableCell className="text-right">{invoice.totalAmount}</TableCell>*/}
-                    {/*    </TableRow>*/}
-                    {/*))}*/}
-                </TableBody>
-            </Table>
+            <div className="p-8">
+                <Table>
+                    <TableCaption>A list of your products.</TableCaption>
+                    <TableHeader className="bg-gray-50">
+                        <TableRow>
+                            <TableHead>#</TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Price</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {products.map((product) => (
+                            <TableRow key={product.id}>
+                                <TableCell>{product.id}</TableCell>
+                                <TableCell>{product.name}</TableCell>
+                                <TableCell>{product.price} €</TableCell>
+                                <TableCell className="text-right space-x-2">
+                                    <Button
+                                        variant = "outline"
+                                        onClick={()=>navigate(`/products/${product.id}`)}
+                                    >
+                                        <Pencil/>
+                                    </Button>
+                                    <Button
+                                        variant = "destructive"
+                                        onClick={()=> handleDelete(product.id)}
+                                        disabled={deleting === product.id}
+                                    >
+                                        <Trash/>
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
         </>
     )
 }
