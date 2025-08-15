@@ -2,7 +2,7 @@ import {useEffect} from "react";
 
 const HomePage = () => {
     useEffect(() => {
-        document.title= "CF7 Home Page"
+        document.title= "CF7 React Home Page"
     }, []);
     return (
         <>

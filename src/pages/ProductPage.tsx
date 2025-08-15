@@ -10,10 +10,10 @@ import {getProduct, updateProduct, createProduct, productFormSchema, type Produc
 import {useEffect} from "react";
 import {toast} from "sonner";
 
-type ProductModeProps = {
+type ProductPageProps = {
     mode?: "edit" | "create";
 }
-const ProductEdit = ({ mode }: ProductModeProps)=> {
+const ProductPage = ({ mode }: ProductPageProps)=> {
     const { productId } = useParams<{productId: string}>();
     const navigate = useNavigate();
     const isEdit = mode === "edit" || (!!productId && mode ==="create");
@@ -79,8 +79,12 @@ const ProductEdit = ({ mode }: ProductModeProps)=> {
 
     return(
     <>
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto mt-12 p-8 border rounded-lg space-y-6">
-            <h1 className="text-xl font-bold">
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="max-w-xl mx-auto mt-12 p-8 border rounded-lg space-y-6 bg-white"
+            autoComplete="off"
+        >
+            <h1 className="text-xl font-bold mb-4">
                 {isEdit? "Edit Product" : "Create New Product"}
             </h1>
             <div>
@@ -165,4 +169,4 @@ const ProductEdit = ({ mode }: ProductModeProps)=> {
     </>
     )
 }
-export default ProductEdit;
+export default ProductPage;
