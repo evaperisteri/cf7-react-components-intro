@@ -6,14 +6,17 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea.tsx";
 import {Switch} from "@/components/ui/switch.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {getProduct, updateProduct, productFormSchema, type ProductType} from"@/api/products.ts";
+import {getProduct, updateProduct, createProduct, productFormSchema, type ProductType} from"@/api/products.ts";
 import {useEffect} from "react";
 import {toast} from "sonner";
 
-const Product =() =>{
-
-    const { productId } = useParams();
+type ProductModeProps = {
+    mode?: "edit" | "create";
+}
+const ProductEdit = ({ mode }: ProductModeProps)=> {
+    const { productId } = useParams<{productId: string}>();
     const navigate = useNavigate();
+    const isEdit = mode === "edit" || (!!productId && mode ==="create");
     const {
         register,
         handleSubmit,
@@ -36,7 +39,7 @@ const Product =() =>{
         }});
 
     useEffect(() => {
-        if(productId) {
+        if(isEdit && productId) {
             getProduct(Number(productId))
                 .then((data)=> {
                     //setValue("name", data.name ?? "");
@@ -55,13 +58,16 @@ const Product =() =>{
                 })
                 .catch((err)=>{console.error(err)})
         }
-    }, [productId, reset]);
+    }, [isEdit, productId, reset]);
 
     const onSubmit = async (data: Omit<ProductType, "id">) => {
         try{
-            if(productId){
+            if(isEdit && productId){
                 await updateProduct(Number(productId), data);
                 toast.success("Product updated!");
+            } else {
+                await createProduct(data);
+                toast.success("Product created!");
             }
             navigate("/products");
         } catch (error) {
@@ -74,7 +80,9 @@ const Product =() =>{
     return(
     <>
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto mt-12 p-8 border rounded-lg space-y-6">
-            <h1 className="text-xl font-bold">Edit Product</h1>
+            <h1 className="text-xl font-bold">
+                {isEdit? "Edit Product" : "Create New Product"}
+            </h1>
             <div>
                 <Label className="mb-1" htmlFor="name">Name</Label>
                 <Input
@@ -157,4 +165,4 @@ const Product =() =>{
     </>
     )
 }
-export default Product;
+export default ProductEdit;
