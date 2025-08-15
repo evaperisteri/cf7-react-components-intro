@@ -3,9 +3,7 @@
 //import ArrowFunctionalComponent from "./components/ArrowFunctionalComponent.tsx";
 //import ArrowFunctionalCompWithProps from "./components/ArrowFunctionalCompWithProps.tsx";
 //import ArrowFunctionalCompWithPropsType from "./components/ArrowFunctionalCompWithPropsType.tsx";
-
 // import CodingFactoryLogo from "./components/CodingFactoryLogo.tsx";
-
 //import Layout from "./components/Layout.tsx";
 //import OnlineStatus from "./components/OnlineStatus.tsx";
 //import Todo from "./components/Todo/Todo.tsx";
@@ -20,12 +18,12 @@
 //import Counter from "./components/Counter.tsx";
 //import FunctionalComponent from "./components/FunctionalComponent.tsx";
 //import ClassComponentWithState from "./components/ClassComponentWithState.tsx";
-
 import {BrowserRouter, Route, Routes} from "react-router";
+import {Toaster} from "sonner";
 import HomePage from "@/pages/HomePage.tsx";
 //import HomePage from "./pages/HomePage.tsx";
 //import NameChangerPage from "./pages/NameChangerPage.tsx";
-//import Layout from "./components/Layout.tsx";
+import Layout from "./components/Layout.tsx";
 //import OnlineStatus from "./components/OnlineStatus.tsx";
 //import OnlineStatusPage from "./pages/OnlineStatusPage.tsx";
 //import UserPage from "./pages/UserPage.tsx";
@@ -36,8 +34,11 @@ import HomePage from "@/pages/HomePage.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
 //import MultiFieldFormWithZodValidation from "./components/MultiFieldFormWithZodValidation.tsx";
 //import MultiFieldFormWithReactHook from "./components/MultiFieldFormWithReactHook.tsx";
-// import Product from "@/pages/ProductPage.tsx"
+import ProductPage from "@/pages/ProductPage.tsx"
 import ProductListPage from "@/pages/ProductListPage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import {AuthProvider} from "@/context/AuthProvider.tsx";
+import ProtectedRoute from "@/components/ProtectedRoute.tsx";
 //import FocusInput from "./components/FocusInput.tsx";
 //import UncontrolledInput from "./components/UncontrolledInput.tsx";
 //import MultiFieldForm from "./components/MultiFieldForm.tsx";
@@ -72,6 +73,7 @@ function App() {
             {/*<Todo/>*/}
             {/*<OnlineStatus/>*/}
         {/*</Layout>*/}
+        <AuthProvider>
 
         <BrowserRouter>
             {/*<Layout>*/}
@@ -111,11 +113,13 @@ function App() {
                             <Route path="new" element={<ProductPage mode="create"/>}/>
                             <Route path=":productId" element={<ProductPage mode="edit"/>}/>
                         </Route>
-                        <Route path="*" element={<NotFoundPage />} />
+                        <Route path="*" element={<NotFoundPage/>} />
                     </Route>
                 </Routes>
             {/*</Layout>*/}
         </BrowserRouter>
+        <Toaster richColors />
+        </AuthProvider>
     </>
   )
 }

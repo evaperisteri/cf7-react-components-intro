@@ -4,7 +4,7 @@ import { type LoginFields, loginSchema } from "@/api/login.ts";
 import { Input } from "@/components/ui/input.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { Label } from "@/components/ui/label.tsx";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth.ts";
 import { toast } from "sonner";
 import { useNavigate } from "react-router";
 
@@ -38,7 +38,7 @@ export default function LoginPage() {
             >
                 <h1>Login</h1>
                 <div>
-                    <Label htmlFor="username" className="mb-1"></Label>
+                    <Label htmlFor="username" className="mb-1">Username</Label>
                     <Input
                         id="username"
                         autoFocus
@@ -51,7 +51,7 @@ export default function LoginPage() {
                 </div>
 
                 <div>
-                    <Label htmlFor="password" className="mb-1"></Label>
+                    <Label htmlFor="password" className="mb-1">Password</Label>
                     <Input
                         id="password"
                         type="password"
